@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class UserDetail extends Component {
   constructor(props) {
@@ -15,19 +16,15 @@ class UserDetail extends Component {
 
   componentDidMount() {
     const id = this.props.match.params.id;
+    const user = this.props.users.find(user => user.id === Number(id));
 
-    fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-    .then((res) => res.json())
-    .then((data) => {
-      this.setState({
-        name: data.name,
-        username: data.username,
-        email: data.email,
-        phone: data.phone,
-        website: data.website,
-      });
-    })
-    .catch((err) => console.log(err));
+    this.setState({
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      phone: user.phone,
+      website: user.website,
+    });
   }
 
   render() {
@@ -45,4 +42,8 @@ class UserDetail extends Component {
   }
 }
 
-export default UserDetail;
+const mapStateToProps = (state) => {
+  return { users: state.users };
+};
+
+export default connect(mapStateToProps)(UserDetail);

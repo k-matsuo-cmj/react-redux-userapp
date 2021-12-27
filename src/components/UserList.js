@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchUser } from '../actions/userActions';
 
 class UserList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      users: []
-    }
-  }
 
   componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-    .then((res) => res.json())
-    .then((data) => {
-      this.setState({users: data});
-    })
-    .catch((err) => console.log(err));
+    this.props.fetchUser();
   }
 
   viewUser(id) {
@@ -25,7 +16,7 @@ class UserList extends Component {
     return (
       <div>
         <ul>
-          {this.state.users.map((user) => {
+          {this.props.users.map((user) => {
             return(
               <li key={user.id}>
                 {user.name}
@@ -39,4 +30,11 @@ class UserList extends Component {
   }
 }
 
-export default UserList;
+const mapStateToProps = (state) => {
+  return { users: state.users };
+};
+const mapDispatchToProps = (dispatch) => {
+  return { fetchUser: () => dispatch(fetchUser()) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);
