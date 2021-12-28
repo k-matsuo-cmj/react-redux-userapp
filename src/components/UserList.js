@@ -1,40 +1,30 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../actions/userActions';
 
-class UserList extends Component {
+const UserList = (props) => {
+  const users = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
 
-  componentDidMount() {
-    this.props.fetchUser();
-  }
+  const viewUser = (id) => props.history.push(`/view/${id}`);
 
-  viewUser(id) {
-    this.props.history.push(`/view/${id}`);
-  }
-
-  render() {
-    return (
-      <div>
-        <ul>
-          {this.props.users.map((user) => {
-            return(
-              <li key={user.id}>
-                {user.name}
-                <button onClick={this.viewUser.bind(this, user.id)}>VIEW</button>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return { users: state.users };
-};
-const mapDispatchToProps = (dispatch) => {
-  return { fetchUser: () => dispatch(fetchUser()) };
+  return (
+    <div>
+      <ul>
+        {users.map((user) => {
+          return(
+            <li key={user.id}>
+              {user.name}
+              <button onClick={viewUser.bind(this, user.id)}>VIEW</button>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserList);
+export default UserList;
