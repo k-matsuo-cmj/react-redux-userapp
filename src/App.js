@@ -1,12 +1,14 @@
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import UserList from './components/UserList';
 import UserDetail from './components/UserDetail';
 
 const App = () => {
   return (
     <div>
-      <Route path="/" component={UserList} exact={true} />
-      <Route path="/view/:id" component={UserDetail} />
+      <Routes>
+        <Route path="/" element={<UserList/>} />
+        <Route path="/view/:id" element={<UserDetail/>} />
+      </Routes>
     </div>
   );
 }

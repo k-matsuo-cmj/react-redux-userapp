@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const UserDetail = (props) => {
-  const id = props.match.params.id;
+const UserDetail = () => {
+  const { id } = useParams();
   const user = useSelector((state) => state.users.find(user => user.id === Number(id)));
   
   return (

@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { fetchUser } from '../actions/userActions';
 
-const UserList = (props) => {
+const UserList = () => {
   const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
 
-  const viewUser = (id) => props.history.push(`/view/${id}`);
+  const navigate = useNavigate();
+  const viewUser = (id) => navigate(`/view/${id}`);
 
   return (
     <div>
